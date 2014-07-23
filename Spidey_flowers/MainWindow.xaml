@@ -17,7 +17,7 @@
         </Button>
 
         <Label Content="Exit" HorizontalAlignment="Left" Height="35" Margin="188,366,0,0" VerticalAlignment="Top" Width="53" FontSize="16"/>
-        <Button HorizontalAlignment="Left" Height="60" Margin="267,353,0,0" VerticalAlignment="Top" Width="77">
+        <Button x:Name="exitButton" HorizontalAlignment="Left" Height="60" Margin="267,353,0,0" VerticalAlignment="Top" Width="77" Click="exitButton_Click">
             <Image Source="assets/exit.ico" Stretch="Uniform" Height="44" Width="44"/>
         </Button>
         <TextBlock HorizontalAlignment="Left" Margin="103,33,0,0" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="36" FontFamily="Axure Handwriting"><Run Language="en-ca" Text="Spidey's Flowers"/></TextBlock>
