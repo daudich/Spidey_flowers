@@ -3,9 +3,11 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="Spidey's Flowers" Height="484.728" Width="498.607">
     <Grid>
-
+        <TextBlock HorizontalAlignment="Left" Margin="103,33,0,0" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="36" FontFamily="Axure Handwriting"><Run Language="en-ca" Text="Spidey's Flowers"/></TextBlock>
+        <Separator HorizontalAlignment="Left" Height="14" Margin="10,91,0,0" VerticalAlignment="Top" Width="461"/>
+        
         <Label Content="Add a Customer" HorizontalAlignment="Left" Height="35" Margin="103,134,0,0" VerticalAlignment="Top" Width="159" FontSize="16"/>
-        <Button HorizontalAlignment="Left" Height="60" Margin="267,121,0,0" VerticalAlignment="Top" Width="77">
+        <Button x:Name="addNewCustButton" HorizontalAlignment="Left" Height="60" Margin="267,121,0,0" VerticalAlignment="Top" Width="77" Click="addNewCustButton_Click">
             <Button.Content>
                 <Image Source="assets/add_customer.ico" Height="44" Width="44"/>
             </Button.Content>
@@ -20,7 +22,6 @@
         <Button x:Name="exitButton" HorizontalAlignment="Left" Height="60" Margin="267,353,0,0" VerticalAlignment="Top" Width="77" Click="exitButton_Click">
             <Image Source="assets/exit.ico" Stretch="Uniform" Height="44" Width="44"/>
         </Button>
-        <TextBlock HorizontalAlignment="Left" Margin="103,33,0,0" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="36" FontFamily="Axure Handwriting"><Run Language="en-ca" Text="Spidey's Flowers"/></TextBlock>
 
     </Grid>
 </Window>

@@ -8,7 +8,7 @@ using System.Data;
 
 namespace Spidey_flowers
 {
-    class DatabaseConnection
+    public class DatabaseConnection
     {
         private string _sqlQuery = null;
         private string _connectionStr = null;
@@ -83,6 +83,52 @@ namespace Spidey_flowers
                 SqlDataReader reader = cmd.ExecuteReader();
 
                 return reader;
+            }
+        }
+
+        public int insertIntoDB()
+        {
+            if (_dbConnection == null)
+            {
+                throw new InvalidOperationException("DB connection is not set.");
+            }
+            else if (_dbConnection.State != ConnectionState.Open)
+            {
+                throw new InvalidOperationException("DB connection is not open.");
+            }
+            else if (_sqlQuery == null)
+            {
+                throw new InvalidOperationException("SQL query is not defined.");
+            }
+            else
+            {
+                Console.WriteLine(_sqlQuery);
+                SqlCommand cmd = new SqlCommand(_sqlQuery, _dbConnection);
+
+                int rows = -1;
+                try
+                {
+                    rows = cmd.ExecuteNonQuery();
+                    cmd.Dispose();
+                }
+                catch
+                {
+                    throw;
+                }
+
+                return rows;
+            }
+        }
+
+        public void closeDB()
+        {
+            try
+            {
+                _dbConnection.Close();
+            }
+            catch
+            {
+                throw;
             }
         }
 

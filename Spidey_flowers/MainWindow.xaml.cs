@@ -22,17 +22,19 @@ namespace Spidey_flowers
     /// </summary>
     public partial class MainWindow : Window
     {
+        protected DatabaseConnection _dbConnect = null;
+
         public MainWindow()
         {
             try
             {
-                DatabaseConnection test = new DatabaseConnection();
-                test.connectionString = Properties.Settings.Default.SflowersConnectionString;
-                test.Sql = "SELECT * FROM customers;";
-                Console.WriteLine(Properties.Settings.Default.SflowersConnectionString);
-                test.connectDB();
+                _dbConnect = new DatabaseConnection();
+                _dbConnect.connectionString = Properties.Settings.Default.SflowersConnectionString;
+                _dbConnect.connectDB();
 
-                SqlDataReader reader = test.run();
+                _dbConnect.Sql = "SELECT * FROM Customers;";
+
+                SqlDataReader reader = _dbConnect.run();
 
                 if (reader.HasRows)
                 {
@@ -47,11 +49,16 @@ namespace Spidey_flowers
                     Console.WriteLine("No rows found.");
                 }
                 reader.Close();
+
             }
             catch (Exception e)
             {
-                Console.WriteLine(e + " What the hell?");
+                Console.WriteLine("DB Error in Main Window :: " + e);
+                MessageBox.Show("Fatal Error: Could not add the new record to the database. Please check the logs for more information.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+
+                Application.Current.Shutdown();
             }
+
             InitializeComponent();
         }
 
@@ -62,10 +69,34 @@ namespace Spidey_flowers
         /// <param name="e">Event arguements</param>
         private void exitButton_Click(object sender, RoutedEventArgs e)
         {
-            if (MessageBox.Show("Leaving so soon?", "Exit", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
+            if (MessageBox.Show("Leaving so soon?", "Exit", MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
             {
+                try
+                {
+                    _dbConnect.closeDB();
+                }
+                catch (Exception excpt)
+                {
+                    Console.WriteLine("Fatal Error: There was an error trying to close the DB connection : " + excpt);
+                }
+
                 Application.Current.Shutdown();
             }
+        }
+
+        /// <summary>
+        /// Event handler for adding a new customer.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void addNewCustButton_Click(object sender, RoutedEventArgs e)
+        {
+            this.Hide();
+
+            AddCustomer addCustomerWindow = new AddCustomer(_dbConnect);
+            addCustomerWindow.ShowDialog();
+
+            this.Show();
         }
     }
 }
