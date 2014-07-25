@@ -1,16 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 using System.Data.SqlClient;
 
 namespace Spidey_flowers
@@ -26,6 +15,10 @@ namespace Spidey_flowers
         private string _customerAddress = null;
         private string _customerPhone = null;
 
+        /// <summary>
+        /// Constructor for add customer sets the DB connection to the active connection being passed in.
+        /// </summary>
+        /// <param name="dbConnect">The currently used DB connection owned by MainWindow</param>
         public AddCustomer(DatabaseConnection dbConnect)
         {
             _dbConnect = dbConnect;
@@ -33,11 +26,22 @@ namespace Spidey_flowers
             InitializeComponent();
         }
 
+        /// <summary>
+        /// This method returns control back to the MainWindow if the cancel button is clicked.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void cancelButton_Click(object sender, RoutedEventArgs e)
         {
             this.Close();
         }
 
+        /// <summary>
+        /// This is the active listener for the 'Add Customer' button. It first calls the checkInput function to check for the correct input entries.
+        /// If everything is okay, then it call on the insertDBRecord funtion to commit the changes to the DB. It then closes the window.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void addCustomerButton_Click(object sender, RoutedEventArgs e)
         {
             if (checkInput() == false)
@@ -55,10 +59,9 @@ namespace Spidey_flowers
         }
 
         /// <summary>
-        /// Inserting a new record in the Customers table.
+        /// Inserting a new record in the Customers table. The query is parameterized for security purposes.
         /// </summary>
-        /// <param name="query"></param>
-        /// <returns></returns>
+        /// <returns>True if the query ran successfully otherwise false.</returns>
         private bool insertDBRecord()
         {
             string query = "INSERT INTO Customers VALUES (@CUSTID, @CUSTNAME, @CUSTADDRESS, @CUSTPHONE);";
@@ -79,8 +82,9 @@ namespace Spidey_flowers
 
                 return true;
             }
-            catch
+            catch (Exception e)
             {
+                Console.WriteLine("DB Error :: Add Customer :: " + e);
                 return false;
             }
 

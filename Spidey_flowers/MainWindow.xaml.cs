@@ -1,17 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 using System.Data.SqlClient;
 
@@ -24,6 +12,10 @@ namespace Spidey_flowers
     {
         protected DatabaseConnection _dbConnect = null;
 
+        /// <summary>
+        /// Constructor for the MainWindow initiates a new DB connection then initialises the window. In case of failure, an error message is displayed
+        /// before exiting.
+        /// </summary>
         public MainWindow()
         {
             try
@@ -54,7 +46,6 @@ namespace Spidey_flowers
             }
             catch (Exception e)
             {
-                Console.WriteLine("DB Error in Main Window :: " + e); // REMOVE THIS BEFORE RELEASE
                 MessageBox.Show("DB Error: Could not open the database. Please check the logs for more information.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
 
                 Application.Current.Shutdown();
@@ -64,7 +55,7 @@ namespace Spidey_flowers
         }
 
         /// <summary>
-        /// Event handler for the exit button on the main page.
+        /// Event handler for the exit button on the main page. Trying to close the resource before exiting the system.
         /// </summary>
         /// <param name="sender">The caller's object</param>
         /// <param name="e">Event arguements</param>
@@ -86,7 +77,7 @@ namespace Spidey_flowers
         }
 
         /// <summary>
-        /// Event handler for adding a new customer.
+        /// Event handler for 'Add a new customer' button.
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -100,6 +91,11 @@ namespace Spidey_flowers
             this.Show();
         }
 
+        /// <summary>
+        /// Event handler for the 'Add a new order' button.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void addNewOrderButton_Click(object sender, RoutedEventArgs e)
         {
             this.Hide();
@@ -108,6 +104,23 @@ namespace Spidey_flowers
             addOrderWindow.ShowDialog();
 
             this.Show();
+        }
+
+        /// <summary>
+        /// This method is called before the window is closed. If the DB connection is open, it will be closed before exitting.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            try
+            {
+                _dbConnect.closeDB();
+            }
+            catch (Exception excpt)
+            {
+                Console.WriteLine("Fatal Error: There was an error trying to close the DB connection : " + excpt);
+            }
         }
 
     }

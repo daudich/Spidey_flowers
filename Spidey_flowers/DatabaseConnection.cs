@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Data.SqlClient;
 using System.Data;
 
@@ -63,6 +59,8 @@ namespace Spidey_flowers
         /// </summary>
         /// <returns>SqlDataReader object with the returned rows.</returns>
         /// <remarks>The method caller is responsible for closing the reader object.</remarks>
+        /// <exception cref="InvalidOperationException">Thrown if the DB connection string is not set, DB connection could not be opened,
+        /// SQL query is not defined.</exception>
         public SqlDataReader run()
         {
             if (_dbConnection == null)
@@ -86,6 +84,9 @@ namespace Spidey_flowers
             }
         }
 
+        /// <summary>
+        /// Closing the DB.
+        /// </summary>
         public void closeDB()
         {
             try
@@ -98,6 +99,9 @@ namespace Spidey_flowers
             }
         }
 
+        /// <summary>
+        /// This methosd is called before destroying of the object by garbage collector.
+        /// </summary>
         public void Dispose()
         {
             Dispose(true);
@@ -133,6 +137,9 @@ namespace Spidey_flowers
             }
         }
 
+        /// <summary>
+        /// Destructor is set to not call dispose as it is already being explicity set elsewhere.
+        /// </summary>
         ~DatabaseConnection()
         {
             Dispose(false);

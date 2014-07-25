@@ -1,23 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 using System.Data.SqlClient;
 using System.Data;
 
 namespace Spidey_flowers
 {
     /// <summary>
-    /// Interaction logic for AddOrder.xaml
+    /// This form is used to gather information about a new order and add to the Orders table.
     /// </summary>
     public partial class AddOrder : Window
     {
@@ -28,6 +17,11 @@ namespace Spidey_flowers
         private int _quantity = 0;
         private string _note = null;
 
+        /// <summary>
+        /// Constructor for add customer sets the DB connection to the active connection being passed in.
+        /// It then calls the populateCustomers function to populate the customer name dropdown.
+        /// </summary>
+        /// <param name="dbConnect">The currently used DB connection owned by MainWindow</param>
         public AddOrder(DatabaseConnection dbConnect)
         {
             _dbConnect = dbConnect;
@@ -47,6 +41,10 @@ namespace Spidey_flowers
 
         }
 
+        /// <summary>
+        /// This method queries the Customers table for all the customers and then populates the 'customer name' dropdown.
+        /// It sets the CustomerID as the Key.
+        /// </summary>
         private void populateCustomers()
         {
             string query = "SELECT CustomerID, CompanyName FROM Customers;";
@@ -78,11 +76,23 @@ namespace Spidey_flowers
 
         }
 
+        /// <summary>
+        /// This method returns control back to the MainWindow if the cancel button is clicked.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void cancelButton_Click(object sender, RoutedEventArgs e)
         {
             this.Close();
         }
 
+        /// <summary>
+        /// This is the active listener for the 'Add Order' button. It first calls the checkInput function to check for the correct input entries.
+        /// If everything is okay, then it call on the insertDBRecord funtion to commit the changes to the DB. It then closes the window.
+        /// In case of a primary key violation an appropriate error message is displayed.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void addOrderButton_Click(object sender, RoutedEventArgs e)
         {
             if (checkInput() == false)
@@ -105,6 +115,10 @@ namespace Spidey_flowers
             this.Close();
         }
 
+        /// <summary>
+        /// This method checks if all the input fields are filled and then populates the correct variables.
+        /// </summary>
+        /// <returns>Returns true iff all input fields are correctly filled.</returns>
         private bool checkInput()
         {
 
@@ -177,6 +191,10 @@ namespace Spidey_flowers
             return true;
         }
 
+        /// <summary>
+        /// Inserting a new record in the Orders table. The query is parameterized for security purposes.
+        /// </summary>
+        /// <returns>0 if all OK, -1 for Primary Key Violation, -2 for all other errors</returns><summary>
         private int insertDBRecord()
         {
             string query = "INSERT INTO Orders VALUES (@ORDERID, @CUSTID, @DATE, @QTY, @NOTE);";
