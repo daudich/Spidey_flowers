@@ -32,7 +32,8 @@ namespace Spidey_flowers
                 _dbConnect.connectionString = Properties.Settings.Default.SflowersConnectionString;
                 _dbConnect.connectDB();
 
-                _dbConnect.Sql = "SELECT * FROM Customers;";
+                // REMOVE THIS BEFORE RELEASE
+                _dbConnect.Sql = new SqlCommand("SELECT * FROM Customers;");
 
                 SqlDataReader reader = _dbConnect.run();
 
@@ -53,8 +54,8 @@ namespace Spidey_flowers
             }
             catch (Exception e)
             {
-                Console.WriteLine("DB Error in Main Window :: " + e);
-                MessageBox.Show("Fatal Error: Could not add the new record to the database. Please check the logs for more information.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                Console.WriteLine("DB Error in Main Window :: " + e); // REMOVE THIS BEFORE RELEASE
+                MessageBox.Show("DB Error: Could not open the database. Please check the logs for more information.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
 
                 Application.Current.Shutdown();
             }

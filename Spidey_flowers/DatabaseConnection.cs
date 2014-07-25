@@ -10,7 +10,7 @@ namespace Spidey_flowers
 {
     public class DatabaseConnection
     {
-        private string _sqlQuery = null;
+        private SqlCommand _sqlQuery = null;
         private string _connectionStr = null;
         private SqlConnection _dbConnection = null;
         // Track whether Dispose has been called. 
@@ -20,7 +20,7 @@ namespace Spidey_flowers
         /// The SQL property is the query that is going to be run.
         /// </summary>
         /// <value>Setting the SQL query variable.</value>
-        public string Sql
+        public SqlCommand Sql
         {
             set { _sqlQuery = value; }
         }
@@ -78,9 +78,9 @@ namespace Spidey_flowers
             }
             else
             {
-                SqlCommand cmd = new SqlCommand(_sqlQuery, _dbConnection);
+                _sqlQuery.Connection = _dbConnection;
 
-                SqlDataReader reader = cmd.ExecuteReader();
+                SqlDataReader reader = _sqlQuery.ExecuteReader();
 
                 return reader;
             }

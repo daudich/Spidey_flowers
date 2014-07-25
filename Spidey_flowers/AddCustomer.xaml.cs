@@ -45,9 +45,7 @@ namespace Spidey_flowers
                 return;
             }
 
-            string query = "INSERT INTO Customers VALUES ('" + _customerID + "','" + _customerName + "','" + _customerAddress + "','" + _customerPhone + "');";
-
-            if (!insertDBRecord(query))
+            if (!insertDBRecord())
             {
                 MessageBox.Show("Fatal Error: Could not add the new record to the database. Please check the logs for more information.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
@@ -61,11 +59,20 @@ namespace Spidey_flowers
         /// </summary>
         /// <param name="query"></param>
         /// <returns></returns>
-        private bool insertDBRecord(string query)
+        private bool insertDBRecord()
         {
+            string query = "INSERT INTO Customers VALUES (@CUSTID, @CUSTNAME, @CUSTADDRESS, @CUSTPHONE);";
+
+            SqlCommand command = new SqlCommand(query);
+
+            command.Parameters.Add(new SqlParameter("CUSTID", _customerID));
+            command.Parameters.Add(new SqlParameter("CUSTNAME", _customerName));
+            command.Parameters.Add(new SqlParameter("CUSTADDRESS", _customerAddress));
+            command.Parameters.Add(new SqlParameter("CUSTPHONE", _customerPhone));
+
             try
             {
-                _dbConnect.Sql = query;
+                _dbConnect.Sql = command;
 
                 SqlDataReader reader = _dbConnect.run();
                 reader.Close(); //Need to close the reader as the DatabaseConnection.run method returns a reader.
