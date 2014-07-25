@@ -13,7 +13,7 @@
         <Separator HorizontalAlignment="Left" Height="14" Margin="10,91,0,0" VerticalAlignment="Top" Width="471" Grid.ColumnSpan="2"/>
 
         <Label Content="Customer ID" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="34,131,0,0" Width="193" Grid.ColumnSpan="2"/>
-        <TextBox x:Name="custIdBox" HorizontalAlignment="Left" Height="23" TextWrapping="Wrap" VerticalAlignment="Top" Width="227" Grid.Column="1" Margin="180,134,0,0" MaxLength="5" ToolTip="Alphanumeric code, maxlength = 5 chars."/>
+        <TextBlock x:Name="custIdBox" HorizontalAlignment="Left" Height="23" TextWrapping="Wrap" VerticalAlignment="Top" Width="227" Grid.Column="1" Margin="180,134,0,0"/>
 
         <Label Content="Customer Name" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="34,173,0,0" Width="193" Grid.ColumnSpan="2"/>
         <TextBox x:Name="custNameBox" HorizontalAlignment="Left" Height="23" TextWrapping="Wrap" VerticalAlignment="Top" Width="227" Grid.Column="1" Margin="180,176,0,0" MaxLength="50" ToolTip="Full name of the customer or the company, maxlength = 50 chars."/>

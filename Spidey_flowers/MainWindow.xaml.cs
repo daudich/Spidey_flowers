@@ -25,7 +25,7 @@ namespace Spidey_flowers
                 _dbConnect.connectDB();
 
                 // REMOVE THIS BEFORE RELEASE
-                _dbConnect.Sql = new SqlCommand("SELECT * FROM Orders;");
+                _dbConnect.Sql = new SqlCommand("SELECT * FROM Customers;");
 
                 SqlDataReader reader = _dbConnect.run();
 
@@ -33,8 +33,7 @@ namespace Spidey_flowers
                 {
                     while (reader.Read())
                     {
-                        Console.WriteLine("{0}\t{1}\t{2}", reader.GetInt32(0),
-                            reader.GetString(1), reader.GetDateTime(2));
+                        Console.WriteLine("{0}\t{1}\t{2}", reader.GetInt32(0), reader.GetString(1), reader.GetString(2));
                     }
                 }
                 else
@@ -44,7 +43,7 @@ namespace Spidey_flowers
                 reader.Close();
 
             }
-            catch (Exception e)
+            catch
             {
                 MessageBox.Show("DB Error: Could not open the database. Please check the logs for more information.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
 

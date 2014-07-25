@@ -13,7 +13,7 @@
         <Separator HorizontalAlignment="Left" Height="14" Margin="10,91,0,0" VerticalAlignment="Top" Width="471" Grid.ColumnSpan="2"/>
 
         <Label Content="Order ID" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="34,131,0,0" Width="193" Grid.ColumnSpan="2"/>
-        <TextBox x:Name="orderIdBox" HorizontalAlignment="Left" Height="23" TextWrapping="Wrap" VerticalAlignment="Top" Width="227" Grid.Column="1" Margin="180,134,0,0" ToolTip="Unique order number."/>
+        <TextBlock x:Name="orderIdBox" HorizontalAlignment="Left" Height="23" TextWrapping="Wrap" VerticalAlignment="Top" Width="227" Grid.Column="1" Margin="180,134,0,0" ToolTip="Unique order number."/>
 
         <Label Content="Customer Name" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="34,173,0,0" Width="193" Grid.ColumnSpan="2"/>
         <ComboBox x:Name="custIdBox" HorizontalAlignment="Left" Height="23" VerticalAlignment="Top" Width="227" Grid.Column="1" Margin="180,176,0,0" ToolTip="Choose the customer's name."/>

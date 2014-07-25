@@ -31,12 +31,44 @@ namespace Spidey_flowers
             try
             {
                 populateCustomers();
+                getOrderID();
             }
             catch (Exception e)
             {
-                MessageBox.Show("Could not retrieve customer IDs from the databse, please see the logs for more info.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-                Console.WriteLine("Populate customers :: " + e);
+                MessageBox.Show("Could not retrieve customer IDs nor Order IDs from the databse, please see the logs for more info.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                Console.WriteLine("Add Order :: " + e);
                 this.Close();
+            }
+
+        }
+
+        /// <summary>
+        /// This method queries the Orders table for the max orderID value to predict the next one.
+        /// This value is set to the Order ID field on the form.
+        /// </summary>
+        private void getOrderID()
+        {
+            string query = "SELECT IDENT_CURRENT('Orders');";
+
+            SqlCommand command = new SqlCommand(query);
+
+            try
+            {
+                _dbConnect.Sql = command;
+
+                SqlDataReader reader = _dbConnect.run();
+
+                reader.Read();
+
+                _orderID = Convert.ToInt32(reader.GetDecimal(0)) + 1;
+                orderIdBox.Text = _orderID.ToString();
+
+                reader.Close(); //Need to close the reader as the DatabaseConnection.run method returns a reader.
+
+            }
+            catch
+            {
+                throw;
             }
 
         }
@@ -69,7 +101,7 @@ namespace Spidey_flowers
                 reader.Close(); //Need to close the reader as the DatabaseConnection.run method returns a reader.
 
             }
-            catch (Exception e)
+            catch
             {
                 throw;
             }
@@ -121,30 +153,11 @@ namespace Spidey_flowers
         /// <returns>Returns true iff all input fields are correctly filled.</returns>
         private bool checkInput()
         {
-
-            if (orderIdBox.Text.Trim().Length == 0)// if order id is empty
-            {
-                MessageBox.Show("Order ID cannot be blank.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-                return false;
-            }
-            else
-            {
-                try
-                {
-                    _orderID = Convert.ToInt32(orderIdBox.Text);
-                }
-                catch (Exception e)
-                {
-                    MessageBox.Show("Order ID must be an integer.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-                    return false;
-                }
-            }
-
             try //if the customer name is empty
             {
                 _customerID = custIdBox.SelectedValue.ToString();
             }
-            catch (Exception e)
+            catch
             {
                 MessageBox.Show("Customer name cannot be blank.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                 return false;
@@ -172,7 +185,7 @@ namespace Spidey_flowers
                 {
                     _quantity = Convert.ToInt32(qtyBox.Text);
                 }
-                catch (Exception e)
+                catch
                 {
                     MessageBox.Show("Quantity must be an integer.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                     return false;
@@ -197,13 +210,12 @@ namespace Spidey_flowers
         /// <returns>0 if all OK, -1 for Primary Key Violation, -2 for all other errors</returns><summary>
         private int insertDBRecord()
         {
-            string query = "INSERT INTO Orders VALUES (@ORDERID, @CUSTID, @DATE, @QTY, @NOTE);";
+            string query = "INSERT INTO Orders VALUES (@CUSTID, @DATE, @QTY, @NOTE);";
 
             SqlCommand command = new SqlCommand(query);
 
-            command.Parameters.Add(new SqlParameter("ORDERID", _orderID));
             command.Parameters.Add(new SqlParameter("CUSTID", _customerID));
-            command.Parameters.Add(new SqlParameter("DATE", _date));
+            command.Parameters.Add(new SqlParameter("DATE", DateTime.Parse(_date)));
             command.Parameters.Add(new SqlParameter("QTY", _quantity));
             command.Parameters.Add(new SqlParameter("NOTE", _note));
 
