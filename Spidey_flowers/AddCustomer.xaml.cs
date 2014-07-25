@@ -11,7 +11,6 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
-
 using System.Data.SqlClient;
 
 namespace Spidey_flowers
@@ -67,7 +66,7 @@ namespace Spidey_flowers
             try
             {
                 _dbConnect.Sql = query;
-                //Console.WriteLine("wrote :: " + _dbConnect.insertIntoDB());
+
                 SqlDataReader reader = _dbConnect.run();
                 reader.Close(); //Need to close the reader as the DatabaseConnection.run method returns a reader.
 
