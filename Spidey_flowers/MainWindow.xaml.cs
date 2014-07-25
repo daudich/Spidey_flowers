@@ -33,7 +33,7 @@ namespace Spidey_flowers
                 _dbConnect.connectDB();
 
                 // REMOVE THIS BEFORE RELEASE
-                _dbConnect.Sql = new SqlCommand("SELECT * FROM Customers;");
+                _dbConnect.Sql = new SqlCommand("SELECT * FROM Orders;");
 
                 SqlDataReader reader = _dbConnect.run();
 
@@ -41,8 +41,8 @@ namespace Spidey_flowers
                 {
                     while (reader.Read())
                     {
-                        Console.WriteLine("{0}\t{1}", reader.GetString(0),
-                            reader.GetString(1));
+                        Console.WriteLine("{0}\t{1}\t{2}", reader.GetInt32(0),
+                            reader.GetString(1), reader.GetDateTime(2));
                     }
                 }
                 else
@@ -99,5 +99,16 @@ namespace Spidey_flowers
 
             this.Show();
         }
+
+        private void addNewOrderButton_Click(object sender, RoutedEventArgs e)
+        {
+            this.Hide();
+
+            AddOrder addOrderWindow = new AddOrder(_dbConnect);
+            addOrderWindow.ShowDialog();
+
+            this.Show();
+        }
+
     }
 }

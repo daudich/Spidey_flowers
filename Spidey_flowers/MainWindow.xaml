@@ -14,7 +14,7 @@
         </Button>
 
         <Label Content="Create an Order" HorizontalAlignment="Left" Height="35" Margin="103,234,0,0" VerticalAlignment="Top" Width="159" FontSize="16"/>
-        <Button HorizontalAlignment="Left" Height="60" Margin="267,221,0,0" VerticalAlignment="Top" Width="77">
+        <Button x:Name="addNewOrderButton" HorizontalAlignment="Left" Height="60" Margin="267,221,0,0" VerticalAlignment="Top" Width="77" Click="addNewOrderButton_Click">
             <Image Source="assets/add_order.ico" Stretch="Uniform" Height="44" Width="44"/>
         </Button>
 
