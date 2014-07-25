@@ -23,25 +23,6 @@ namespace Spidey_flowers
                 _dbConnect = new DatabaseConnection();
                 _dbConnect.connectionString = Properties.Settings.Default.SflowersConnectionString;
                 _dbConnect.connectDB();
-
-                // REMOVE THIS BEFORE RELEASE
-                _dbConnect.Sql = new SqlCommand("SELECT * FROM Customers;");
-
-                SqlDataReader reader = _dbConnect.run();
-
-                if (reader.HasRows)
-                {
-                    while (reader.Read())
-                    {
-                        Console.WriteLine("{0}\t{1}\t{2}", reader.GetInt32(0), reader.GetString(1), reader.GetString(2));
-                    }
-                }
-                else
-                {
-                    Console.WriteLine("No rows found.");
-                }
-                reader.Close();
-
             }
             catch
             {
@@ -120,6 +101,21 @@ namespace Spidey_flowers
             {
                 Console.WriteLine("Fatal Error: There was an error trying to close the DB connection : " + excpt);
             }
+        }
+
+        /// <summary>
+        /// Event handler for the 'Track an order' button.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void trackOrderButton_Click(object sender, RoutedEventArgs e)
+        {
+            this.Hide();
+
+            TrackOrders trackOrderWindow = new TrackOrders(_dbConnect);
+            trackOrderWindow.ShowDialog();
+
+            this.Show();
         }
 
     }

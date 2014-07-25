@@ -18,7 +18,7 @@ namespace Spidey_flowers
         private string _note = null;
 
         /// <summary>
-        /// Constructor for add customer sets the DB connection to the active connection being passed in.
+        /// Constructor for adding customers sets the DB connection to the active connection being passed in.
         /// It then calls the populateCustomers function to populate the customer name dropdown.
         /// </summary>
         /// <param name="dbConnect">The currently used DB connection owned by MainWindow</param>
